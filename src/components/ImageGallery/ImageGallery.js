@@ -23,6 +23,7 @@ class ImageGallery extends Component {
             page: prev.page + 1,
           })),
         )
+        .catch(err => console.log(err))
         .finally(() => this.setState({ loading: false }));
     }
   }
@@ -35,9 +36,12 @@ class ImageGallery extends Component {
           pictures: [...prev.pictures, ...pictures],
           isHidden: true,
           page: prev.page + 1,
+          loading: true,
         })),
       )
-      .finally(() =>
+      .catch(err => console.log(err))
+      .finally(
+        () => this.setState({ loading: false }),
         window.scrollTo({
           top: document.documentElement.scrollHeight,
           behavior: 'smooth',

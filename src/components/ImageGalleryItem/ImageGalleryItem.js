@@ -7,27 +7,30 @@ class ImageGalleryItem extends Component {
     largeImage: '',
   };
 
-  toggleModal = e => {
+  toggleModal = largeImageURL => {
     this.setState(prev => ({
       showModal: !prev.showModal,
-      largeImage: e.target.id || '',
+      largeImage: largeImageURL,
     }));
   };
 
   render() {
     return (
       <>
-        {this.props.pictures.map(picture => (
-          <li className="ImageGalleryItem" key={picture.id}>
-            <img
-              src={picture.webformatURL}
-              alt=""
-              className="ImageGalleryItem-image"
-              onClick={this.toggleModal}
-              id={picture.largeImageURL}
-            />
-          </li>
-        ))}
+        {this.props.pictures.map(picture => {
+          const togglePicture = () => this.toggleModal(picture.largeImageURL);
+          return (
+            <li className="ImageGalleryItem" key={picture.id}>
+              <img
+                src={picture.webformatURL}
+                alt={picture.tags}
+                className="ImageGalleryItem-image"
+                onClick={togglePicture}
+                id={picture.largeImageURL}
+              />
+            </li>
+          );
+        })}
         {this.state.showModal && (
           <Modal onClose={this.toggleModal} picture={this.state.largeImage} />
         )}
